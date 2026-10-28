@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111111"><meta name="description" content="MZ Life OS — مساحة عربية واحدة لتنظيم يومك ومهامك وأهدافك.">
+  <link rel="manifest" href="manifest.json"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23c51f32'/%3E%3Ctext x='32' y='42' font-family='Arial' font-size='25' font-weight='bold' text-anchor='middle' fill='white'%3EMZ%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"><title>MZ Life OS | لوحة اليوم</title>
+</head>
+<body>
+<section class="auth-screen" id="auth-screen" hidden>
+  <div class="auth-card">
+    <a class="brand auth-brand" href="#" aria-label="MZ Life OS"><span class="brand-mark">MZ</span><span><b>MZ Life OS</b><small>مساحتك الخاصة لإدارة يومك</small></span></a>
+    <div class="auth-copy"><h1 id="auth-title">مرحبًا بعودتك</h1><p id="auth-description">سجّل الدخول إلى مساحتك.</p></div>
+    <div class="auth-alert" id="auth-alert" role="alert" hidden></div>
+    <form id="auth-form" novalidate><div id="auth-fields" class="auth-fields"></div><button class="btn primary auth-submit" id="auth-submit" type="submit">تسجيل الدخول</button></form>
+    <div class="auth-links" id="auth-links"></div>
+    <section class="recovery-card" id="recovery-notice" hidden><h2>احفظ رمز الاستعادة</h2><p>هذا الرمز يظهر الآن فقط. اكتبه في مكان آمن خارج هذا الجهاز؛ تحتاجه إذا نسيت كلمة المرور.</p><code id="recovery-code"></code><div class="recovery-actions"><button class="btn secondary" id="copy-recovery" type="button">نسخ الرمز</button><button class="btn primary" id="continue-recovery" type="button">حفظت الرمز — متابعة</button></div></section>
+    <p class="auth-note">بياناتك محفوظة لحسابك. لا تشارك كلمة المرور أو رمز الاستعادة.</p>
+  </div>
+</section>
+<div class="app-shell" id="app-shell" hidden>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#today" aria-label="MZ Life OS - الرئيسية"><span class="brand-mark">MZ</span><span><b>MZ Life OS</b><small>نظّم يومك بطريقتك</small></span></a>
+    <div class="side-caption">مساحة العمل</div>
+    <nav class="side-nav" aria-label="التنقل الرئيسي">
+      <button class="nav-item active" data-view="today"><span>◫</span>لوحة اليوم</button>
+      <button class="nav-item" data-view="tasks"><span>☑</span>المهام<i id="task-count">0</i></button>
+      <button class="nav-item" data-view="calendar"><span>▦</span>التقويم</button>
+      <button class="nav-item" data-view="notes"><span>▤</span>الملاحظات</button>
+      <div class="side-caption">حياتك</div>
+      <button class="nav-item" data-view="study"><span>⌑</span>الدراسة</button>
+      <button class="nav-item" data-view="studio"><span>✳</span>الاستوديو</button>
+      <button class="nav-item" data-view="money"><span>◉</span>المال</button>
+      <button class="nav-item" data-view="habits"><span>❋</span>العادات والعبادات</button>
+      <button class="nav-item" data-view="goals"><span>◎</span>الصحة والأهداف</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button class="nav-item" data-view="settings"><span>⚙</span>الإعدادات</button>
+      <div class="user-chip"><span class="avatar" id="account-avatar">م</span><span><b id="account-name">مساحتك الشخصية</b><small id="account-email">الحساب</small></span></div>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><button id="menu-toggle" class="mobile-menu" aria-label="فتح القائمة">☰</button><div class="breadcrumbs" id="breadcrumbs">مساحة العمل　/　لوحة اليوم</div><div class="top-actions"><span class="sync-state" id="sync-state"><i></i> محفوظ على هذا الجهاز</span><button class="icon-button" id="theme-toggle" aria-label="تغيير المظهر" title="تغيير المظهر">◐</button><button class="icon-button" id="logout" aria-label="تسجيل الخروج" title="تسجيل الخروج">↪</button></div></header>
+    <div class="conflict-banner" id="conflict-banner" hidden><span>اكتُشف تعديل أحدث على جهاز آخر. نسختك محفوظة محليًا ولم تُرسل فوق النسخة الأحدث.</span><div><button class="btn secondary" id="export-conflict">تنزيل نسختي</button><button class="btn secondary" id="reload-conflict">تحميل نسخة الحساب</button><button class="btn danger" id="overwrite-conflict">استبدال نسخة الحساب بنسختي</button></div></div>
+    <div class="conflict-banner legacy-banner" id="legacy-banner" hidden><span>وجدنا بيانات من النسخة السابقة محفوظة دون تشفير في هذا المتصفح. يمكنك تصديرها أو دمجها في حسابك.</span><div><button class="btn secondary" id="export-legacy">تصدير البيانات القديمة</button><button class="btn primary" id="merge-legacy">دمجها في الحساب</button><button class="btn secondary" id="discard-legacy">حذف النسخة القديمة</button></div></div>
+    <div class="page" id="page" tabindex="-1"></div>
+    <footer class="footer">تم تصميم وتطوير الموقع بواسطة <b>Eng. Mohammad Zematr</b><span>رقم التليفون: <a href="tel:01286885776">01286885776</a></span></footer>
+  </main>
+</div>
+<nav class="mobile-nav" id="mobile-nav" aria-label="التنقل السريع" hidden><button class="active" data-view="today"><span>◫</span>اليوم</button><button data-view="tasks"><span>☑</span>المهام</button><button data-view="calendar"><span>▦</span>التقويم</button><button data-view="notes"><span>▤</span>ملاحظات</button><button id="more-menu"><span>•••</span>المزيد</button></nav>
+<dialog id="item-dialog"><form method="dialog" id="item-form"><div class="dialog-head"><div><h2 id="dialog-title">إضافة عنصر</h2><p id="dialog-help">أدخل التفاصيل ثم احفظ.</p></div><button type="button" class="close-dialog" id="close-dialog" aria-label="إغلاق">×</button></div><div id="dialog-fields" class="form-fields"></div><div class="dialog-actions"><button type="button" class="btn secondary" id="cancel-dialog">إلغاء</button><button class="btn primary" id="save-dialog" value="save">حفظ</button></div></form></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="app.js" defer></script>
+</body></html>

@@ -1,0 +1,14 @@
+.git
+.gitignore
+.dockerignore
+Dockerfile
+data
+node_modules
+.env
+.env.*
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.log
+Thumbs.db
+.DS_Store
